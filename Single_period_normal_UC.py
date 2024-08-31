@@ -49,15 +49,16 @@ mdl.maximize(MS)
 #(1a)
 mdl.add_constraint(MS == mdl.sum(B[i-1]*d[i] for i in range(1,i_d_dim+1)) - mdl.sum( (C[i-1]*p[i] + SU[i-1]*z[i]) for i in range(1,i_g_dim+1)))
 
+
 #(1b)
-mdl.add_constraint(mdl.sum(d[i] for i in range(1,i_d_dim+1)) - mdl.sum( p[i] for i in range(1,i_g_dim+1)) == 0 )
+mdl.add_constraint(mdl.sum(d[i] for i in range(1,i_d_dim+1)) - mdl.sum( p[i] for i in range(1,i_g_dim+1)) == 0,'1b')
 
 #(1c)
-mdl.add_constraints(p[i] >= P_min[i-1]*z[i] for i in range(1,i_g_dim+1))
-mdl.add_constraints(p[i] <= P_max[i-1]*z[i] for i in range(1,i_g_dim+1))
+mdl.add_constraints((p[i] >= P_min[i-1]*z[i] for i in range(1,i_g_dim+1)),'1c_min')
+mdl.add_constraints((p[i] <= P_max[i-1]*z[i] for i in range(1,i_g_dim+1)),'1c_max')
 
 #(1d)
-mdl.add_constraints(d[i] <= D_Max[i-1] for i in range(1,i_d_dim+1))
+mdl.add_constraints((d[i] <= D_Max[i-1] for i in range(1,i_d_dim+1)),'1d')
     
 mdl.print_information()
 
